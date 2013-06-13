@@ -153,7 +153,7 @@ void of_alias_scan(void)
 	if (!root_node)
 		return;
 
-	of_aliases = of_find_node_by_path(root_node, "/aliases");
+	of_aliases = of_find_node_by_path("/aliases");
 	if (!of_aliases)
 		return;
 
@@ -170,7 +170,7 @@ void of_alias_scan(void)
 		    !of_prop_cmp(pp->name, "linux,phandle"))
 			continue;
 
-		np = of_find_node_by_path(root_node, pp->value);
+		np = of_find_node_by_path(pp->value);
 		if (!np)
 			continue;
 
@@ -557,18 +557,16 @@ EXPORT_SYMBOL(of_machine_is_compatible);
 
 /**
  *	of_find_node_by_path - Find a node matching a full OF path
- *	@root:	The root node of this tree
  *	@path:	The full path to match
  *
- *	Returns a node pointer with refcount incremented, use
- *	of_node_put() on it when done.
+ *	Returns a pointer to the node found or NULL.
  */
-struct device_node *of_find_node_by_path(struct device_node *root, const char *path)
+struct device_node *of_find_node_by_path(const char *path)
 {
 	char *slash, *p, *freep;
-	struct device_node *dn = root;
+	struct device_node *dn = root_node;
 
-	if (*path != '/')
+	if (!dn || !path || *path != '/')
 		return NULL;
 
 	path++;
@@ -1156,12 +1154,12 @@ int of_probe(void)
 	if(!root_node)
 		return -ENODEV;
 
-	of_chosen = of_find_node_by_path(root_node, "/chosen");
+	of_chosen = of_find_node_by_path("/chosen");
 	of_property_read_string(root_node, "model", &of_model);
 
 	__of_parse_phandles(root_node);
 
-	memory = of_find_node_by_path(root_node, "/memory");
+	memory = of_find_node_by_path("/memory");
 	if (memory)
 		of_add_memory(memory, false);
 
@@ -1234,8 +1232,8 @@ int of_device_is_stdout_path(struct device_d *dev)
 	name = of_get_property(of_chosen, "linux,stdout-path", NULL);
 	if (name == NULL)
 		return 0;
-	dn = of_find_node_by_path(root_node, name);
 
+	dn = of_find_node_by_path(name);
 	if (!dn)
 		return 0;
 
@@ -1264,7 +1262,7 @@ int of_add_initrd(struct device_node *root, resource_size_t start,
 	struct device_node *chosen;
 	__be32 buf[2];
 
-	chosen = of_find_node_by_path(root, "/chosen");
+	chosen = of_find_node_by_path("/chosen");
 	if (!chosen)
 		return -EINVAL;
 
