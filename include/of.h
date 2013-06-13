@@ -183,6 +183,7 @@ extern struct property *of_find_property(const struct device_node *np,
 					const char *name, int *lenp);
 
 extern struct device_node *of_find_node_by_path(const char *path);
+extern int of_device_is_available(const struct device_node *device);
 
 extern void of_alias_scan(void);
 extern int of_alias_get_id(struct device_node *np, const char *stem);
@@ -238,6 +239,11 @@ static inline struct property *of_find_property(const struct device_node *np,
 static inline struct device_node *of_find_node_by_path(const char *path)
 {
 	return NULL;
+}
+
+static inline int of_device_is_available(const struct device_node *device)
+{
+	return 0;
 }
 
 static inline void of_alias_scan(void)
