@@ -862,6 +862,84 @@ int of_device_is_available(const struct device_node *device)
 }
 EXPORT_SYMBOL(of_device_is_available);
 
+/**
+ *	of_get_parent - Get a node's parent if any
+ *	@node:	Node to get parent
+ *
+ *	Returns a pointer to the parent node or NULL if already at root.
+ */
+struct device_node *of_get_parent(const struct device_node *node)
+{
+	if (!node)
+		return NULL;
+
+	return (node == root_node) ? NULL : node->parent;
+}
+EXPORT_SYMBOL(of_get_parent);
+
+/**
+ *	of_get_next_child - Iterate a node childs
+ *	@node:	parent node
+ *	@prev:	previous child of the parent node, or NULL to get first
+ *
+ *	Returns a pointer to the next child or NULL.
+ */
+struct device_node *of_get_next_child(const struct device_node *node,
+	struct device_node *prev)
+{
+	if (!node)
+		return NULL;
+
+	if (!prev)
+		return list_prepare_entry(prev, &node->children, parent_list);
+
+	list_for_each_entry_continue(prev, &node->children, parent_list)
+		return prev;
+
+	return NULL;
+}
+EXPORT_SYMBOL(of_get_next_child);
+
+/**
+ *	of_get_next_available_child - Find the next available child node
+ *	@node:	parent node
+ *	@prev:	previous child of the parent node, or NULL to get first
+ *
+ *      This function is like of_get_next_child(), except that it
+ *      automatically skips any disabled nodes (i.e. status = "disabled").
+ */
+struct device_node *of_get_next_available_child(const struct device_node *node,
+	struct device_node *prev)
+{
+	for_each_child_of_node(node, prev)
+		if (of_device_is_available(prev))
+			return prev;
+	return NULL;
+}
+EXPORT_SYMBOL(of_get_next_available_child);
+
+/**
+ *	of_get_child_by_name - Find the child node by name for a given parent
+ *	@node:	parent node
+ *	@name:	child name to look for.
+ *
+ *      This function looks for child node for given matching name
+ *
+ *	Returns a node pointer if found or NULL.
+ */
+struct device_node *of_get_child_by_name(const struct device_node *node,
+				const char *name)
+{
+	struct device_node *child;
+
+	for_each_child_of_node(node, child)
+		if (child->name && (of_node_cmp(child->name, name) == 0))
+			return child;
+
+	return NULL;
+}
+EXPORT_SYMBOL(of_get_child_by_name);
+
 void of_print_nodes(struct device_node *node, int indent)
 {
 	struct device_node *n;
