@@ -214,6 +214,10 @@ extern int of_property_match_string(struct device_node *np,
 extern int of_property_count_strings(struct device_node *np,
 				     const char *propname);
 
+extern struct device_node *of_parse_phandle(const struct device_node *np,
+					    const char *phandle_name,
+					    int index);
+
 extern void of_alias_scan(void);
 extern int of_alias_get_id(struct device_node *np, const char *stem);
 extern const char *of_alias_get(struct device_node *np);
@@ -340,6 +344,12 @@ static inline int of_property_count_strings(struct device_node *np,
 					const char *propname)
 {
 	return -ENOSYS;
+}
+
+static inline struct device_node *of_parse_phandle(const struct device_node *np,
+					    const char *phandle_name, int index)
+{
+	return NULL;
 }
 
 static inline struct device_node *of_find_node_by_path(const char *path)
