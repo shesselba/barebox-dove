@@ -346,6 +346,18 @@ static int dove_sdhci_probe(struct device_d *dev)
 
 	dove_sdhci_set_mci_caps(host);
 
+	writel(0x00000000, 0xf10d0200);
+	writel(0x00030000, 0xf10d0204);
+	writel(0x00002400, 0xf10d0208);
+
+	writel(0x00010186, 0xf10d0400);
+	writel(0xfffffffd, 0xf10d0404);
+
+	writel(0x018000c0, 0xf10d0420);
+	writel(0xffffffff, 0xf10d0424);
+
+	writel(0x0000000e, 0xf10d0440);
+
 	ret = mci_register(&host->mci);
 	if (ret)
 		free(host);
