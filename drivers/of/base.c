@@ -418,6 +418,9 @@ struct device_node *of_find_matching_node_and_match(struct device_node *from,
 				*match = m;
 			return np;
 		}
+		/* check for root node */
+		if (!np->parent)
+			break;
 	}
 
 	return NULL;
