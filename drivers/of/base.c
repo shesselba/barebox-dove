@@ -301,9 +301,13 @@ struct device_node *of_find_node_by_name(struct device_node *from,
 	if (!from)
 		from = root_node;
 
-	of_tree_for_each_node(np, from)
+	of_tree_for_each_node(np, from) {
 		if (np->name && !of_node_cmp(np->name, name))
 			return np;
+		/* check for root node */
+		if (!np->parent)
+			break;
+	}
 
 	return NULL;
 }
