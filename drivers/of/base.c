@@ -363,10 +363,16 @@ struct device_node *of_find_node_with_property(struct device_node *from,
 {
 	struct device_node *np;
 
+	if (!from)
+		from = root_node;
+
 	of_tree_for_each_node(np, from) {
 		struct property *pp = of_find_property(np, prop_name, NULL);
 		if (pp)
 			return np;
+		/* check for root node */
+		if (!np->parent)
+			break;
 	}
 
 	return NULL;
