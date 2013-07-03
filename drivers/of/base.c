@@ -335,9 +335,13 @@ struct device_node *of_find_compatible_node(struct device_node *from,
 	if (!from)
 		from = root_node;
 
-	of_tree_for_each_node(np, from)
+	of_tree_for_each_node(np, from) {
 		if (of_device_is_compatible(np, compatible))
 			return np;
+		/* check for root node */
+		if (!np->parent)
+			break;
+	}
 
 	return NULL;
 }
