@@ -76,7 +76,7 @@ struct orion_gbe {
 #define UTXQ			0	/* Used Tx queue number */
 #define URXQ			0	/* Used Rx queue number */
 #define RX_RING_SIZE		4
-#define TRANSFER_TIMEOUT	(100 * USECOND)
+#define TRANSFER_TIMEOUT	(10 * MSECOND)
 
 #define NR_ADDR_WINS		6	/* number of address windows */
 #define NR_HIGH_ADDR_WINS	4	/* number of high address windows */
@@ -276,23 +276,9 @@ static int port_recv(struct eth_device *edev)
 	u32 cmd_sts;
 	int ret = 0;
 
-	/* invalidate current receive buffer */
-	dma_inv_range((unsigned long)rxdesc->buf_ptr,
-		      (unsigned long)rxdesc->buf_ptr +
-		      ALIGN(PKTSIZE, 32));
-
 	/* wait for received packet */
-	ret = wait_on_timeout(TRANSFER_TIMEOUT,
-		      (readl(&rxdesc->cmd_sts) & RXDESC_OWNED_BY_DMA) == 0);
-	if (ret) {
-		/*
-		 * A receive timeout in barebox is not an error.
-		 * It is likely that we really haven't received a
-		 * packet and barebox will call us again anyway.
-		 */
-		dev_dbg(&edev->dev, "receive timeout\n");
-		return ret;
-	}
+	if (readl(&rxdesc->cmd_sts) & RXDESC_OWNED_BY_DMA)
+		return 0;
 
 	/* drop malicious packets */
 	cmd_sts = readl(&rxdesc->cmd_sts);
@@ -309,6 +295,11 @@ static int port_recv(struct eth_device *edev)
 		ret = -EIO;
 		goto recv_err;
 	}
+
+	/* invalidate current receive buffer */
+	dma_inv_range((unsigned long)rxdesc->buf_ptr,
+		      (unsigned long)rxdesc->buf_ptr +
+		      ALIGN(PKTSIZE, 32));
 
 	/* received packet is padded with two null bytes */
 	net_receive(rxdesc->buf_ptr + 0x2, rxdesc->byte_cnt - 0x2);
@@ -376,6 +367,9 @@ static void port_adjust_link(struct eth_device *edev)
 
 	/* setup and enable port */
 	reg = readl(port->regs + PORT_SC0);
+	reg &= ~PORT_ENABLE;
+	writel(reg, port->regs + PORT_SC0);
+
 	reg &= ~(SET_SPEED_MASK | SET_FULL_DUPLEX | SET_FLOWCTRL_ENABLE);
 	if (phy->speed == SPEED_1000)
 		reg |= SET_SPEED_1000;
@@ -387,7 +381,7 @@ static void port_adjust_link(struct eth_device *edev)
 		reg |= SET_FULL_DUPLEX;
 	if (phy->pause)
 		reg |= SET_FLOWCTRL_ENABLE;
-	reg |= PORT_ENABLE;
+	reg |= FORCE_LINK_PASS | FORCE_NO_LINK_FAIL | PORT_ENABLE;
 
 	writel(reg, port->regs + PORT_SC0);
 }
@@ -437,7 +431,8 @@ static int port_probe(struct device_d *parent, struct port_priv *port)
 	writel(reg, port->regs + PORT_C);
 	writel(0, port->regs + PORT_CX);
 
-	reg = SC0_RESERVED | FORCE_NO_LINK_FAIL | MRU_1518;
+	reg = SC0_RESERVED | MRU_1518;
+	reg |= ANEG_DUPLEX | ANEG_FLOWCTRL | ANEG_SPEED;
 	writel(reg, port->regs + PORT_SC0);
 
 	reg = SC1_RESERVED;

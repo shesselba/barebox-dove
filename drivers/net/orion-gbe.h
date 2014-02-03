@@ -113,10 +113,10 @@
 #define  MRU_MASK		(7 << 17)
 #define  SET_FULL_DUPLEX	BIT(21)
 #define  SET_FLOWCTRL_ENABLE	BIT(22)
-#define  SET_SPEED_10		(0 << 22)
-#define  SET_SPEED_100		(1 << 22)
-#define  SET_SPEED_1000		(2 << 22)
-#define  SET_SPEED_MASK		(3 << 22)
+#define  SET_SPEED_1000		(1 << 23)
+#define  SET_SPEED_10		(0 << 23)
+#define  SET_SPEED_100		(2 << 23)
+#define  SET_SPEED_MASK		(3 << 23)
 /* Port Status 0 */
 #define PORT_S0			0x044
 /* Port Trasmit Queue Command */
