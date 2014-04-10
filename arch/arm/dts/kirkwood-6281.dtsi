@@ -74,6 +74,13 @@
 					       "mpp15", "mpp16", "mpp17";
 				marvell,function = "sdio";
 			};
+			pmx_ge1: pmx-ge1 {
+				marvell,pins = "mpp20", "mpp21", "mpp22", "mpp23",
+				               "mpp24", "mpp25", "mpp26", "mpp27",
+				               "mpp28", "mpp29", "mpp30", "mpp31",
+				               "mpp32", "mpp33", "mpp34", "mpp35";
+				marvell,function = "ge1";
+			};
 		};
 
 		rtc@10300 {
@@ -108,4 +115,9 @@
 			status = "disabled";
 		};
 	};
+};
+
+&eth1 {
+	pinctrl-0 = <&pmx_ge1>;
+	pinctrl-names = "default";
 };
