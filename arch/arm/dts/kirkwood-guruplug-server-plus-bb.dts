@@ -1,0 +1,18 @@
+/*
+ * Barebox specific DT overlay for Globalscale Guruplug
+ *   Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+ */
+
+#include "kirkwood-guruplug-server-plus.dts"
+
+/ {
+	chosen {
+		linux,stdout-path = &uart0;
+	};
+
+	gpio-leds {
+		health-r {
+			barebox,default-trigger = "heartbeat";
+		};
+	};
+};
