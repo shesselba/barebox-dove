@@ -103,11 +103,13 @@
 	ethphy0: ethernet-phy@0 {
 		compatible = "marvell,88e1121";
 		reg = <0>;
+		phy-mode = "rgmii-id";
 	};
 
 	ethphy1: ethernet-phy@1 {
 		compatible = "marvell,88e1121";
 		reg = <1>;
+		phy-mode = "rgmii-id";
 	};
 };
 
