@@ -6,6 +6,10 @@
 #include "arm/armada-370-mirabox.dts"
 
 / {
+	chosen {
+		stdout-path = "/soc/internal-regs/serial@12000";
+	};
+
 	soc {
 		internal-regs {
 			gpio_leds {
