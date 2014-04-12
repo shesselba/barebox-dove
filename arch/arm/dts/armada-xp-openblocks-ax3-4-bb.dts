@@ -1,0 +1,18 @@
+/*
+ * Barebox specific DT overlay for PlatHome OpenBlocks AX3-4
+ *   Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+ */
+
+#include "armada-xp-openblocks-ax3-4.dts"
+
+/ {
+	chosen {
+		linux,stdout-path = &uart0;
+	};
+
+	leds {
+		red_led {
+			barebox,default-trigger = "heartbeat";
+		};
+	};
+};

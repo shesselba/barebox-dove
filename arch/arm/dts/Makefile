@@ -63,6 +63,8 @@ pbl-$(CONFIG_MACH_PHYTEC_PFLA02) += \
 	imx6dl-phytec-pbab01.dtb.o \
 	imx6q-phytec-pbab01.dtb.o \
 	imx6s-phytec-pbab01.dtb.o
+pbl-$(CONFIG_MACH_PLATHOME_OPENBLOCKS_AX3) += \
+	armada-xp-openblocks-ax3-4-bb.dtb.o
 pbl-$(CONFIG_MACH_REALQ7) += imx6q-dmo-edmqmx6.dtb.o
 pbl-$(CONFIG_MACH_SABRELITE) += \
 	imx6dl-sabrelite.dtb.o \
