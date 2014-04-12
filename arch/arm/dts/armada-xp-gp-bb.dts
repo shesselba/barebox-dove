@@ -1,0 +1,14 @@
+/*
+ * Barebox specific DT overlay for
+ *   Marvell Armada XP development board (DB-MV784MP-GP)
+ *
+ *   Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+ */
+
+#include "armada-xp-gp.dts"
+
+/ {
+	chosen {
+		linux,stdout-path = &uart0;
+	};
+};
