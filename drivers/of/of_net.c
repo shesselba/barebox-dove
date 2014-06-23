@@ -42,7 +42,9 @@ int of_get_phy_mode(struct device_node *np)
 	const char *pm;
 	int err, i;
 
-	err = of_property_read_string(np, "phy-mode", &pm);
+	err = of_property_read_string(np, "phy-connection-type", &pm);
+	if (err < 0)
+		err = of_property_read_string(np, "phy-mode", &pm);
 	if (err < 0)
 		return err;
 
