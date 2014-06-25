@@ -20,6 +20,41 @@
 					barebox,default-trigger = "heartbeat";
 				};
 			};
+
+			/* USB 2.0 Hub + uSD USB controllers */
+			usb0: usb@50000 {
+				compatible = "marvell,mvebu-usb";
+				reg = <0x50000 0x400>;
+				interrupts = <45>;
+				clocks = <&coreclk 0>;
+				usb-phy = <&usb_phy 0>;
+				dr_mode = "host";
+				status = "okay";
+			};
+
+			usb_phy: phy@50800 {
+				compatible = "marvell,mvebu-usb-phy-40nm";
+				reg = <0x50800 0x100>;
+				clocks = <&coreclk 0>;
+				#phy-cells = <1>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "okay";
+
+				port@0 { reg = <0>; };
+				port@1 { reg = <1>; };
+			};
+
+			/* mini-PCIe slot */
+			usb1: usb@51000 {
+				compatible = "marvell,mvebu-usb";
+				reg = <0x51000 0x400>;
+				interrupts = <46>;
+				clocks = <&coreclk 0>;
+				usb-phy = <&usb_phy 1>;
+				dr_mode = "host";
+				status = "okay";
+			};
 		};
 	};
 };
