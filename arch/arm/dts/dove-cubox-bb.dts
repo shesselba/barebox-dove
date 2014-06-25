@@ -15,4 +15,46 @@
 			barebox,default-trigger = "heartbeat";
 		};
 	};
+
+	mbus {
+		internal-regs {
+			usb0: usb@50000 {
+				compatible = "marvell,mvebu-usb";
+				reg = <0x50000 0x400>;
+				interrupts = <24>;
+				clocks = <&gate_clk 0>;
+				usb-phy = <&usb_phy0>;
+				vbus-supply = <&usb_power>;
+				dr_mode = "host";
+				status = "okay";
+			};
+
+			usb_phy0: phy@50400 {
+				compatible = "marvell,mvebu-usb-phy-65nm";
+				reg = <0x50400 0x100>;
+				clocks = <&gate_clk 0>;
+				#phy-cells = <0>;
+				status = "okay";
+			};
+
+			usb1: usb@51000 {
+				compatible = "marvell,mvebu-usb";
+				reg = <0x51000 0x400>;
+				interrupts = <25>;
+				clocks = <&gate_clk 1>;
+				usb-phy = <&usb_phy1>;
+				vbus-supply = <&usb_power>;
+				dr_mode = "host";
+				status = "okay";
+			};
+
+			usb_phy1: phy@51400 {
+				compatible = "marvell,mvebu-usb-phy-65nm";
+				reg = <0x51400 0x100>;
+				clocks = <&gate_clk 1>;
+				#phy-cells = <0>;
+				status = "okay";
+			};
+		};
+	};
 };
