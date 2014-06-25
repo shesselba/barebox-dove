@@ -4,6 +4,7 @@ menuconfig USB
 if USB
 
 source drivers/usb/imx/Kconfig
+source drivers/usb/mvebu/Kconfig
 
 source drivers/usb/host/Kconfig
 

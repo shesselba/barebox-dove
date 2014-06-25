@@ -1,0 +1,35 @@
+config USB_MVEBU_PHY_40NM
+	bool
+
+config USB_MVEBU_PHY_65NM
+	bool
+
+config USB_MVEBU_PHY
+	bool
+	depends on USB_MVEBU_HOST || USB_MVEBU_DEVICE
+	select USB_MVEBU_PHY_40NM if ARCH_ARMADA_370
+	select USB_MVEBU_PHY_40NM if ARCH_ARMADA_XP
+	select USB_MVEBU_PHY_65NM if ARCH_DOVE
+	select USB_MVEBU_PHY_65NM if ARCH_KIRKWOOD
+
+config USB_MVEBU
+	select USB_MVEBU_PHY
+	bool
+
+config USB_MVEBU_HOST
+	bool "Marvell MVEBU USB host support"
+	depends on ARCH_MVEBU
+	select USB_MVEBU
+	select USB_EHCI
+	help
+	  Enables USB host support for the ChipIdea USB controller found on
+	  Marvell Orion5x, Kirkwood, Dove, Armada 370, and XP SoCs.
+
+config USB_MVEBU_DEVICE
+	bool "Marvell MVEBU USB device support"
+	depends on ARCH_MVEBU
+	select USB_MVEBU
+	select USB_GADGET_DRIVER_ARC
+	help
+	  Enables USB device support for the ChipIdea USB controller found on
+	  Marvell Orion5x, Kirkwood, Dove, Armada 370, and XP SoCs.
