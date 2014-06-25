@@ -437,7 +437,7 @@ static int kirkwood_pinctrl_probe(struct device_d *dev)
 		(struct mvebu_pinctrl_soc_info *)match->data;
 
 	mpp_base = dev_request_mem_region(dev, 0);
-	if (!map_base)
+	if (!mpp_base)
 		return -EBUSY;
 
 	return mvebu_pinctrl_probe(dev, soc);
