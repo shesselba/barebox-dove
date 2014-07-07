@@ -4,6 +4,7 @@
  */
 
 #include "arm/kirkwood-guruplug-server-plus.dts"
+#include "kirkwood-usb.dtsi"
 
 / {
 	gpio-leds {
@@ -11,4 +12,10 @@
 			barebox,default-trigger = "heartbeat";
 		};
 	};
+};
+
+/* USB 2.0 Hub and USB uSD controller */
+&usb0 {
+	dr_mode = "host";
+	status = "okay";
 };

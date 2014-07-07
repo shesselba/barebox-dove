@@ -4,6 +4,7 @@
  */
 
 #include "arm/kirkwood-topkick.dts"
+#include "kirkwood-usb.dtsi"
 
 / {
 	gpio-leds {
@@ -11,4 +12,9 @@
 			barebox,default-trigger = "heartbeat";
 		};
 	};
+};
+
+&usb0 {
+	dr_mode = "host";
+	status = "okay";
 };

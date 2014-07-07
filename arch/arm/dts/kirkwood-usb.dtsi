@@ -1,0 +1,22 @@
+/ {
+	ocp@f1000000 {
+		/delete-node/ ehci@50000;
+
+		usb0: usb@50000 {
+			compatible = "marvell,mvebu-usb2";
+			reg = <0x50000 0x400>;
+			interrupts = <19>;
+			clocks = <&gate_clk 3>;
+			usb-phy = <&usb_phy0>;
+			status = "disabled";
+		};
+
+		usb_phy0: phy@50400 {
+			compatible = "marvell,mvebu-usb2-phy-65nm";
+			reg = <0x50400 0x60>;
+			clocks = <&gate_clk 3>;
+			#phy-cells = <0>;
+			status = "okay";
+		};
+	};
+};
