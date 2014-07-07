@@ -23,6 +23,18 @@ config USB_CHIPIDEA_GENERIC
 	  Enables a generic USB 2.0 driver for the ChipIdea USB controller
 	  found on various SoCs.
 
+config USB_IMX_PHY
+	bool
+
+config USB_IMX
+	bool "i.MX USB 2.0 driver"
+	depends on USB_CHIPIDEA
+	depends on ARCH_IMX
+	select USB_IMX_PHY if ARCH_IMX6
+	help
+	  Enables USB 2.0 support for the ChipIdea USB controller found on
+	  Freescale i.MX SoCs.
+
 config USB_MVEBU_PHY_40NM
 	bool
 
