@@ -4,9 +4,22 @@
  */
 
 #include "arm/armada-xp-gp.dts"
+#include "armada-xp-usb.dtsi"
 
 / {
 	chosen {
 		stdout-path = "/soc/internal-regs/serial@12000";
 	};
+};
+
+/* Front-side USB slot */
+&usb0 {
+	dr_mode = "host";
+	status = "okay";
+};
+
+/* Back-side USB slot */
+&usb1 {
+	dr_mode = "host";
+	status = "okay";
 };

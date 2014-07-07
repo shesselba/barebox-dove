@@ -1,0 +1,51 @@
+/ {
+	soc {
+		internal-regs {
+			/delete-node/ usb@50000;
+			/delete-node/ usb@51000;
+			/delete-node/ usb@52000;
+
+			usb0: usb@50000 {
+				compatible = "marvell,mvebu-usb2";
+				reg = <0x50000 0x400>;
+				interrupts = <45>;
+				clocks = <&gateclk 18>;
+				usb-phy = <&usb_phy 0>;
+				status = "disabled";
+			};
+
+			usb_phy: phy@50800 {
+				compatible = "marvell,mvebu-usb2-phy-40nm";
+				reg = <0x50800 0x100>,
+				      <0x50400 0x8>, <0x51400 0x8>, <0x52400 0x8>;
+				clocks = <&gateclk 18>;
+				#phy-cells = <1>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "okay";
+
+				port@0 { reg = <0>; };
+				port@1 { reg = <1>; };
+				port@2 { reg = <2>; };
+			};
+
+			usb1: usb@51000 {
+				compatible = "marvell,mvebu-usb2";
+				reg = <0x51000 0x400>;
+				interrupts = <46>;
+				clocks = <&gateclk 19>;
+				usb-phy = <&usb_phy 1>;
+				status = "disabled";
+			};
+
+			usb2: usb@52000 {
+				compatible = "marvell,mvebu-usb2";
+				reg = <0x52000 0x400>;
+				interrupts = <47>;
+				clocks = <&gateclk 20>;
+				usb-phy = <&usb_phy 2>;
+				status = "disabled";
+			};
+		};
+	};
+};

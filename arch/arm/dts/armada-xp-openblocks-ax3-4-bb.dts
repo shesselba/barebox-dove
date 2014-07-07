@@ -4,6 +4,7 @@
  */
 
 #include "arm/armada-xp-openblocks-ax3-4.dts"
+#include "armada-xp-usb.dtsi"
 
 / {
 	chosen {
@@ -23,4 +24,16 @@
 			};
 		};
 	};
+};
+
+/* Front side USB 0 */
+&usb0 {
+	dr_mode = "host";
+	status = "okay";
+};
+
+/* Front side USB 1 */
+&usb1 {
+	dr_mode = "host";
+	status = "okay";
 };
