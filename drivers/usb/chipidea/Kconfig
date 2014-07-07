@@ -22,3 +22,25 @@ config USB_CHIPIDEA_GENERIC
 	help
 	  Enables a generic USB 2.0 driver for the ChipIdea USB controller
 	  found on various SoCs.
+
+config USB_MVEBU_PHY_40NM
+	bool
+
+config USB_MVEBU_PHY_65NM
+	bool
+
+config USB_MVEBU_PHY
+	bool
+	select USB_MVEBU_PHY_40NM if ARCH_ARMADA_370
+	select USB_MVEBU_PHY_40NM if ARCH_ARMADA_XP
+	select USB_MVEBU_PHY_65NM if ARCH_DOVE
+	select USB_MVEBU_PHY_65NM if ARCH_KIRKWOOD
+
+config USB_MVEBU
+	bool "Marvell MVEBU USB 2.0 driver"
+	depends on USB_CHIPIDEA
+	depends on ARCH_MVEBU
+	select USB_MVEBU_PHY
+	help
+	  Enables USB 2.0 support for the ChipIdea USB controller found on
+	  Marvell Orion5x, Kirkwood, Dove, Armada 370, and XP SoCs.
