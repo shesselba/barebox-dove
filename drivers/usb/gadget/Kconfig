@@ -17,7 +17,7 @@ choice
 config USB_GADGET_DRIVER_ARC
 	bool
 	prompt "Arc OTG device core"
-	depends on ARCH_IMX || ARCH_MXS
+	depends on ARCH_IMX || ARCH_MXS || USB_CHIPIDEA_DEVICE
 	select USB_GADGET_DUALSPEED
 	select POLLER
 

@@ -1,0 +1,24 @@
+config USB_CHIPIDEA
+	bool
+
+config USB_CHIPIDEA_HOST
+	bool "ChipIdea USB Host support"
+	select USB_CHIPIDEA
+	select USB_EHCI
+	help
+	  Enables USB host support for the ChipIdea USB controller.
+
+config USB_CHIPIDEA_DEVICE
+	bool "ChipIdea USB Device support"
+	select USB_CHIPIDEA
+	select USB_HAVE_GADGET_DRIVER
+	select USB_GADGET_DRIVER_ARC
+	help
+	  Enables USB device support for the ChipIdea USB controller.
+
+config USB_CHIPIDEA_GENERIC
+	bool "ChipIdea Generic USB 2.0 driver"
+	depends on USB_CHIPIDEA
+	help
+	  Enables a generic USB 2.0 driver for the ChipIdea USB controller
+	  found on various SoCs.

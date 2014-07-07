@@ -3,6 +3,7 @@ menuconfig USB
 
 if USB
 
+source drivers/usb/chipidea/Kconfig
 source drivers/usb/imx/Kconfig
 
 source drivers/usb/host/Kconfig
