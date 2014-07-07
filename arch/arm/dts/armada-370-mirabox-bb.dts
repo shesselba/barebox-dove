@@ -4,6 +4,7 @@
  */
 
 #include "arm/armada-370-mirabox.dts"
+#include "armada-370-usb.dtsi"
 
 / {
 	chosen {
@@ -22,4 +23,16 @@
 			};
 		};
 	};
+};
+
+/* USB 2.0 uSD controllers */
+&usb0 {
+	dr_mode = "host";
+	status = "okay";
+};
+
+/* mini-PCIe slot */
+&usb1 {
+	dr_mode = "host";
+	status = "okay";
 };
