@@ -4,6 +4,7 @@
  */
 
 #include "arm/dove-cubox.dts"
+#include "dove-usb.dtsi"
 
 / {
 	chosen {
@@ -15,4 +16,16 @@
 			barebox,default-trigger = "heartbeat";
 		};
 	};
+};
+
+&usb0 {
+	vbus-supply = <&usb_power>;
+	dr_mode = "host";
+	status = "okay";
+};
+
+&usb1 {
+	vbus-supply = <&usb_power>;
+	dr_mode = "host";
+	status = "okay";
 };
